@@ -1,13 +1,13 @@
 [package]
-name = "hyperliquid_rust_sdk"
-version = "0.6.0"
+name = "hyperliquid_rust_sdk_toaster"
+version = "0.6.1"
 edition = "2021"
 license = "MIT"
-description = "Rust SDK for Hyperliquid"
-homepage = "https://hyperliquid.xyz/"
+description = "Rust SDK for Hyperliquid - toaster fork"
+homepage = "https://github.com/toaster-trade/hyperliquid-rust-sdk"
 readme = "README.md"
-documentation = "https://github.com/hyperliquid-dex/hyperliquid-rust-sdk"
-repository = "https://github.com/hyperliquid-dex/hyperliquid-rust-sdk"
+documentation = "https://github.com/toaster-trade/hyperliquid-rust-sdk"
+repository = "https://github.com/toaster-trade/hyperliquid-rust-sdk"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

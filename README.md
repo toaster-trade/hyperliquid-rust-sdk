@@ -1,4 +1,4 @@
-# hyperliquid-rust-sdk
+# hyperliquid-rust-sdk-toaster
 
 SDK for Hyperliquid API trading with Rust.
 
@@ -8,7 +8,7 @@ See `src/bin` for examples. You can run any example with `cargo run --bin [EXAMP
 
 ## Installation
 
-`cargo add hyperliquid_rust_sdk`
+`cargo add hyperliquid_rust_sdk_toaster`
 
 ## License
 

@@ -1,7 +1,7 @@
 use std::{thread::sleep, time::Duration};
 
 use alloy::signers::local::PrivateKeySigner;
-use hyperliquid_rust_sdk::{
+use hyperliquid_rust_sdk_toaster::{
     BaseUrl, ExchangeClient, ExchangeDataStatus, ExchangeResponseStatus, MarketCloseParams,
     MarketOrderParams,
 };
@@ -16,7 +16,7 @@ async fn main() {
             .parse()
             .unwrap();
 
-    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None)
+    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None)
         .await
         .unwrap();
 

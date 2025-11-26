@@ -1,7 +1,7 @@
 use alloy::signers::local::PrivateKeySigner;
 use log::info;
 
-use hyperliquid_rust_sdk::{
+use hyperliquid_rust_sdk_toaster::{
     BaseUrl, ClientLimit, ClientOrder, ClientOrderRequest, ExchangeClient, ExchangeDataStatus,
     ExchangeResponseStatus,
 };
@@ -16,7 +16,7 @@ async fn main() {
             .parse()
             .unwrap();
 
-    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None)
+    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None)
         .await
         .unwrap();
 

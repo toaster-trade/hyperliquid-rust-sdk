@@ -1,5 +1,5 @@
 use alloy::signers::local::PrivateKeySigner;
-use hyperliquid_rust_sdk::{BaseUrl, ClientLimit, ClientOrder, ClientOrderRequest, ExchangeClient};
+use hyperliquid_rust_sdk_toaster::{BaseUrl, ClientLimit, ClientOrder, ClientOrderRequest, ExchangeClient};
 use log::info;
 
 #[tokio::main]
@@ -11,7 +11,7 @@ async fn main() {
             .parse()
             .unwrap();
 
-    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None)
+    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None)
         .await
         .unwrap();
 
@@ -27,7 +27,7 @@ async fn main() {
 
     info!("Agent address: {:?}", wallet.address());
 
-    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None)
+    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None)
         .await
         .unwrap();
 

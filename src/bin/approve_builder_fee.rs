@@ -1,5 +1,5 @@
 use alloy::{primitives::address, signers::local::PrivateKeySigner};
-use hyperliquid_rust_sdk::{BaseUrl, ExchangeClient};
+use hyperliquid_rust_sdk_toaster::{BaseUrl, ExchangeClient};
 use log::info;
 
 #[tokio::main]
@@ -12,7 +12,7 @@ async fn main() {
             .unwrap();
 
     let exchange_client =
-        ExchangeClient::new(None, wallet.clone(), Some(BaseUrl::Testnet), None, None)
+        ExchangeClient::new(None, wallet.clone(), Some(BaseUrl::Testnet), None, None, None)
             .await
             .unwrap();
 

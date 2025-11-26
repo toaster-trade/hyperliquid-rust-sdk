@@ -37,6 +37,7 @@ pub struct ExchangeClient {
     pub meta: Meta,
     pub vault_address: Option<Address>,
     pub coin_to_asset: HashMap<String, u32>,
+    pub asset_id_offset: u32,
 }
 
 fn serialize_sig<S>(sig: &Signature, s: S) -> std::result::Result<S::Ok, S::Error>
@@ -106,6 +107,9 @@ impl ExchangeClient {
         base_url: Option<BaseUrl>,
         meta: Option<Meta>,
         vault_address: Option<Address>,
+        // for hip-3 assets
+        // ref: https://github.com/hyperliquid-dex/hyperliquid-python-sdk/blob/master/hyperliquid/info.py#L55C7-L69C55
+        asset_id_offset: Option<u32>,
     ) -> Result<ExchangeClient> {
         let client = client.unwrap_or_default();
         let base_url = base_url.unwrap_or(BaseUrl::Mainnet);
@@ -116,10 +120,11 @@ impl ExchangeClient {
         } else {
             info.meta().await?
         };
+        let asset_id_offset = asset_id_offset.unwrap_or(0);
 
         let mut coin_to_asset = HashMap::new();
         for (asset_ind, asset) in meta.universe.iter().enumerate() {
-            coin_to_asset.insert(asset.name.clone(), asset_ind as u32);
+            coin_to_asset.insert(asset.name.clone(), asset_ind as u32 + asset_id_offset);
         }
 
         coin_to_asset = info
@@ -136,6 +141,7 @@ impl ExchangeClient {
                 base_url: base_url.get_url(),
             },
             coin_to_asset,
+            asset_id_offset,
         })
     }
 

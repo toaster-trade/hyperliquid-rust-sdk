@@ -54,7 +54,9 @@ pub enum InfoRequest {
         user: Address,
         oid: u64,
     },
-    Meta,
+    Meta {
+        dex: String,
+    },
     MetaAndAssetCtxs,
     SpotMeta,
     SpotMetaAndAssetCtxs,
@@ -208,7 +210,13 @@ impl InfoClient {
     }
 
     pub async fn meta(&self) -> Result<Meta> {
-        let input = InfoRequest::Meta;
+        self.meta_for_dex(None).await
+    }
+
+    pub async fn meta_for_dex(&self, dex: Option<String>) -> Result<Meta> {
+        // empty string is 1st dex aka hyperliquid
+        let dex = dex.unwrap_or_else(String::new);
+        let input = InfoRequest::Meta { dex };
         self.send_info_request(input).await
     }
 

@@ -35,6 +35,7 @@ pub enum InfoRequest {
     #[serde(rename = "clearinghouseState")]
     UserState {
         user: Address,
+        dex: String,
     },
     #[serde(rename = "batchClearinghouseStates")]
     UserStates {
@@ -103,32 +104,36 @@ pub struct InfoClient {
     pub http_client: HttpClient,
     pub(crate) ws_manager: Option<WsManager>,
     reconnect: bool,
+    dex:String,
 }
 
 impl InfoClient {
-    pub async fn new(client: Option<Client>, base_url: Option<BaseUrl>) -> Result<InfoClient> {
-        Self::new_internal(client, base_url, false).await
+    pub async fn new(client: Option<Client>, base_url: Option<BaseUrl>, dex: Option<String>) -> Result<InfoClient> {
+        Self::new_internal(client, base_url, false, dex).await
     }
 
     pub async fn with_reconnect(
         client: Option<Client>,
         base_url: Option<BaseUrl>,
+        dex: Option<String>,
     ) -> Result<InfoClient> {
-        Self::new_internal(client, base_url, true).await
+        Self::new_internal(client, base_url, true, dex).await
     }
 
     async fn new_internal(
         client: Option<Client>,
         base_url: Option<BaseUrl>,
         reconnect: bool,
+        dex: Option<String>,
     ) -> Result<InfoClient> {
         let client = client.unwrap_or_default();
         let base_url = base_url.unwrap_or(BaseUrl::Mainnet).get_url();
-
+        let dex = dex.unwrap_or("".to_string());
         Ok(InfoClient {
             http_client: HttpClient { client, base_url },
             ws_manager: None,
             reconnect,
+            dex,
         })
     }
 
@@ -190,7 +195,7 @@ impl InfoClient {
     }
 
     pub async fn user_state(&self, address: Address) -> Result<UserStateResponse> {
-        let input = InfoRequest::UserState { user: address };
+        let input = InfoRequest::UserState { user: address, dex: self.dex.clone() };
         self.send_info_request(input).await
     }
 
@@ -210,7 +215,7 @@ impl InfoClient {
     }
 
     pub async fn meta(&self) -> Result<Meta> {
-        self.meta_for_dex(None).await
+        self.meta_for_dex(Some(self.dex.clone())).await
     }
 
     pub async fn meta_for_dex(&self, dex: Option<String>) -> Result<Meta> {

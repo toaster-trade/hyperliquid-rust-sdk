@@ -38,6 +38,7 @@ pub struct ExchangeClient {
     pub vault_address: Option<Address>,
     pub coin_to_asset: HashMap<String, u32>,
     pub asset_id_offset: u32,
+    pub dex: String,
 }
 
 fn serialize_sig<S>(sig: &Signature, s: S) -> std::result::Result<S::Ok, S::Error>
@@ -110,11 +111,12 @@ impl ExchangeClient {
         // for hip-3 assets
         // ref: https://github.com/hyperliquid-dex/hyperliquid-python-sdk/blob/master/hyperliquid/info.py#L55C7-L69C55
         asset_id_offset: Option<u32>,
+        dex: Option<String>,
     ) -> Result<ExchangeClient> {
         let client = client.unwrap_or_default();
         let base_url = base_url.unwrap_or(BaseUrl::Mainnet);
 
-        let info = InfoClient::new(None, Some(base_url)).await?;
+        let info = InfoClient::new(None, Some(base_url), dex.clone()).await?;
         let meta = if let Some(meta) = meta {
             meta
         } else {
@@ -142,6 +144,7 @@ impl ExchangeClient {
             },
             coin_to_asset,
             asset_id_offset,
+            dex: dex.unwrap_or("".to_string()),
         })
     }
 
@@ -377,7 +380,7 @@ impl ExchangeClient {
             "https://api.hyperliquid-testnet.xyz" => BaseUrl::Testnet,
             _ => return Err(Error::GenericRequest("Invalid base URL".to_string())),
         };
-        let info_client = InfoClient::new(None, Some(base_url)).await?;
+        let info_client = InfoClient::new(None, Some(base_url), Some(self.dex.clone())).await?;
         let user_state = info_client.user_state(wallet.address()).await?;
 
         let position = user_state
@@ -425,7 +428,7 @@ impl ExchangeClient {
             "https://api.hyperliquid-testnet.xyz" => BaseUrl::Testnet,
             _ => return Err(Error::GenericRequest("Invalid base URL".to_string())),
         };
-        let info_client = InfoClient::new(None, Some(base_url)).await?;
+        let info_client = InfoClient::new(None, Some(base_url), Some(self.dex.clone())).await?;
         let meta = info_client.meta().await?;
 
         let asset_meta = meta

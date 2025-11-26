@@ -13,10 +13,10 @@ async fn main() {
             .unwrap();
 
     let address = wallet.address();
-    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None)
+    let exchange_client = ExchangeClient::new(None, wallet, Some(BaseUrl::Testnet), None, None, None, None)
         .await
         .unwrap();
-    let info_client = InfoClient::new(None, Some(BaseUrl::Testnet)).await.unwrap();
+    let info_client = InfoClient::new(None, Some(BaseUrl::Testnet), None).await.unwrap();
 
     let response = exchange_client
         .update_leverage(5, "ETH", false, None)

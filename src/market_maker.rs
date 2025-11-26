@@ -46,9 +46,9 @@ impl MarketMaker {
     pub async fn new(input: MarketMakerInput) -> MarketMaker {
         let user_address = input.wallet.address();
 
-        let info_client = InfoClient::new(None, Some(BaseUrl::Testnet)).await.unwrap();
+        let info_client = InfoClient::new(None, Some(BaseUrl::Testnet),None).await.unwrap();
         let exchange_client =
-            ExchangeClient::new(None, input.wallet, Some(BaseUrl::Testnet), None, None, None)
+            ExchangeClient::new(None, input.wallet, Some(BaseUrl::Testnet), None, None, None, None)
                 .await
                 .unwrap();
 

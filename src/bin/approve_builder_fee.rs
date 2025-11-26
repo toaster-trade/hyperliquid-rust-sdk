@@ -12,7 +12,7 @@ async fn main() {
             .unwrap();
 
     let exchange_client =
-        ExchangeClient::new(None, wallet.clone(), Some(BaseUrl::Testnet), None, None, None)
+        ExchangeClient::new(None, wallet.clone(), Some(BaseUrl::Testnet), None, None, None, None)
             .await
             .unwrap();
 

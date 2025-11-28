@@ -13,17 +13,7 @@ fn now_timestamp_ms() -> u64 {
 }
 
 pub(crate) fn next_nonce() -> u64 {
-    let nonce = CUR_NONCE.fetch_add(1, Ordering::Relaxed);
-    let now_ms = now_timestamp_ms();
-    if nonce > now_ms + 1000 {
-        info!("nonce progressed too far ahead {nonce} {now_ms}");
-    }
-    // more than 300 seconds behind
-    if nonce + 300000 < now_ms {
-        CUR_NONCE.fetch_max(now_ms + 1, Ordering::Relaxed);
-        return now_ms;
-    }
-    nonce
+    return now_timestamp_ms();
 }
 
 pub(crate) const WIRE_DECIMALS: u8 = 8;
